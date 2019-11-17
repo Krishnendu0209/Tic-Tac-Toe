@@ -34,9 +34,8 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
         b3 = (Button) findViewById(R.id.B3);
         c3 = (Button) findViewById(R.id.C3);
         tvTurnIndicator = findViewById(R.id.tvTurnIndicator);
-        xPlayedTurns = findViewById(R.id.xPlayedTurns);
-        oPlayedTurns = findViewById(R.id.oPlayedTurns);
-
+        xPlayedTurns = findViewById(R.id.playerPlayedTurns);
+        oPlayedTurns = findViewById(R.id.computerPlayedTurns);
         bArray = new Button[] { a1, a2, a3, b1, b2, b3, c1, c2, c3 };
 
         for (Button b : bArray)
@@ -69,7 +68,8 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
         Button b = (Button) v;
         if (turn)
         {
-            // X's turn
+            tvTurnIndicator.setText("X's Turn");
+            // X's playerTurn
             xCount++;
             b.setText("X");
             String xTurn= "X Played : " + String.valueOf(xCount);
@@ -77,7 +77,8 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
         }
         else
         {
-            // O's turn
+            tvTurnIndicator.setText("O's Turn");
+            // O's playerTurn
             oCount++;
             b.setText("O");
             String oTurn= "O Played : " + String.valueOf(oCount);
