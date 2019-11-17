@@ -7,16 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlayWithFriendActivity extends Activity implements OnClickListener
 {
 
     boolean turn = true; // true = X & false = O
-    int turn_count = 0;
+    int turnCount = 0, xCount = 0, oCount = 0;
     Button[] bArray = null;
     Button a1, a2, a3, b1, b2, b3, c1, c2, c3;
-
+    TextView tvTurnIndicator, xPlayedTurns, oPlayedTurns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,6 +33,10 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
         a3 = (Button) findViewById(R.id.A3);
         b3 = (Button) findViewById(R.id.B3);
         c3 = (Button) findViewById(R.id.C3);
+        tvTurnIndicator = findViewById(R.id.tvTurnIndicator);
+        xPlayedTurns = findViewById(R.id.xPlayedTurns);
+        oPlayedTurns = findViewById(R.id.oPlayedTurns);
+
         bArray = new Button[] { a1, a2, a3, b1, b2, b3, c1, c2, c3 };
 
         for (Button b : bArray)
@@ -45,7 +50,7 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
             @Override
             public void onClick(View v) {
                 turn = true;
-                turn_count = 0;
+                turnCount = 0;
                 Intent intent = new Intent(PlayWithFriendActivity.this, WelcomeScreen.class);
                 startActivity(intent);
                 finish();
@@ -65,15 +70,20 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
         if (turn)
         {
             // X's turn
+            xCount++;
             b.setText("X");
-
+            String xTurn= "X Played : " + String.valueOf(xCount);
+            xPlayedTurns.setText(xTurn);
         }
         else
         {
             // O's turn
+            oCount++;
             b.setText("O");
+            String oTurn= "O Played : " + String.valueOf(oCount);
+            oPlayedTurns.setText(oTurn);
         }
-        turn_count++;
+        turnCount++;
         b.setClickable(false);
         b.setBackgroundResource(R.drawable.button_selected_background);
         turn = !turn;
@@ -138,16 +148,19 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
             if (!turn)
             {
                 message("X wins");
+                tvTurnIndicator.setText("X wins");
             }
             else
             {
                 message("O wins");
+                tvTurnIndicator.setText("O wins");
             }
             enableOrDisable(false);
         }
-        else if (turn_count == 9)
+        else if (turnCount == 9)
         {
             message("Draw!");
+            tvTurnIndicator.setText("Draw");
         }
     }
 
@@ -162,7 +175,6 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
 
         for (Button b : bArray)
         {
-            //b.setText("");
             b.setClickable(enable);
             if (enable)
             {
