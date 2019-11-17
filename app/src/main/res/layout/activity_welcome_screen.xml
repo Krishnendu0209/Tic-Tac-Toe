@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_image"
+    tools:context=".WelcomeScreen">
+
+    <TextView
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:text="Tic Tac Toe"
+        android:fontFamily="@font/banner_style"
+        android:textSize="30sp"
+        android:id="@+id/welcomeId"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeId"
+        android:layout_marginTop="107dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/logoImage"
+        android:src="@drawable/logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logoImage"
+        android:orientation="vertical"
+        android:layout_marginTop="25dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textStyle="bold"
+            android:id="@+id/btnFriend"
+            android:text="Play With A Friend"
+            android:background="@drawable/button_background"
+            android:textAlignment="center"
+
+            android:layout_gravity="center"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textStyle="bold"
+            android:id="@+id/btnComputer"
+            android:text="Single Player"
+            android:textAlignment="center"
+            android:background="@drawable/button_background"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>
