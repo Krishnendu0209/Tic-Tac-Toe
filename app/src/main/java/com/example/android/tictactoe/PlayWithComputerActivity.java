@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Random;
+
 public class PlayWithComputerActivity extends Activity implements View.OnClickListener
 {
 
@@ -16,6 +19,8 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
     int turnCount = 0, playerCount = 0, computerCount = 0;
     Button[] bArray = null;
     Button a1, a2, a3, b1, b2, b3, c1, c2, c3;
+
+    HashMap<String,Button> buttonList = new HashMap<String, Button>();
     TextView tvTurnIndicator, playerPlayedTurns, computerPlayedTurns;
 
     @Override
@@ -23,25 +28,8 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_with_computer);
-        a1 = (Button) findViewById(R.id.A1);
-        b1 = (Button) findViewById(R.id.B1);
-        c1 = (Button) findViewById(R.id.C1);
-        a2 = (Button) findViewById(R.id.A2);
-        b2 = (Button) findViewById(R.id.B2);
-        c2 = (Button) findViewById(R.id.C2);
-        a3 = (Button) findViewById(R.id.A3);
-        b3 = (Button) findViewById(R.id.B3);
-        c3 = (Button) findViewById(R.id.C3);
-        tvTurnIndicator = findViewById(R.id.tvTurnIndicator);
-        playerPlayedTurns = findViewById(R.id.playerPlayedTurns);
-        computerPlayedTurns = findViewById(R.id.computerPlayedTurns);
+        init();
 
-        bArray = new Button[] { a1, a2, a3, b1, b2, b3, c1, c2, c3 };
-
-        for (Button b : bArray)
-        {
-            b.setOnClickListener(this);
-        }
         Button bnew = (Button) findViewById(R.id.button1);
         bnew.setOnClickListener(new View.OnClickListener()
         {
@@ -56,7 +44,40 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
             }
         });
     }
+    private void init ()
+    {
+        a1 = (Button) findViewById(R.id.A1);
+        b1 = (Button) findViewById(R.id.B1);
+        c1 = (Button) findViewById(R.id.C1);
+        a2 = (Button) findViewById(R.id.A2);
+        b2 = (Button) findViewById(R.id.B2);
+        c2 = (Button) findViewById(R.id.C2);
+        a3 = (Button) findViewById(R.id.A3);
+        b3 = (Button) findViewById(R.id.B3);
+        c3 = (Button) findViewById(R.id.C3);
 
+        tvTurnIndicator = findViewById(R.id.tvTurnIndicator);
+        playerPlayedTurns = findViewById(R.id.playerPlayedTurns);
+        computerPlayedTurns = findViewById(R.id.computerPlayedTurns);
+        tvTurnIndicator.setText("Player's Turn");
+
+        buttonList.put("0",a1);
+        buttonList.put("1",a2);
+        buttonList.put("2",a3);
+        buttonList.put("3",b1);
+        buttonList.put("4",b2);
+        buttonList.put("5",b3);
+        buttonList.put("6",c1);
+        buttonList.put("7",c2);
+        buttonList.put("8",c3);
+
+        bArray = new Button[] { a1, a2, a3, b1, b2, b3, c1, c2, c3 };
+
+        for (Button b : bArray)
+        {
+            b.setOnClickListener(this);
+        }
+    }
     @Override
     public void onClick(View v)
     {
@@ -68,33 +89,54 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
         Button b = (Button) v;
         if (playerTurn)
         {
-            tvTurnIndicator.setText("Player's Turn");
-            // Player's playerTurn -- P
+            // Player's playerTurn
             playerCount++;
             b.setText("P");
             String playerTurn= "Player Played : " + String.valueOf(playerCount);
             playerPlayedTurns.setText(playerTurn);
+            tvTurnIndicator.setText("Computer's Turn");
         }
         else
         {
             // Computer's playerTurn -- C
-            tvTurnIndicator.setText("Computer's Turn");
             computerCount++;
             b.setText("C");
             String computerTurn= "Computer Played : " + String.valueOf(computerCount);
             computerPlayedTurns.setText(computerTurn);
+            tvTurnIndicator.setText("Player's Turn");
+
         }
         turnCount++;
         b.setClickable(false);
         b.setBackgroundResource(R.drawable.button_selected_background);
-        playerTurn = !playerTurn;
-
-        checkForWinner();
+        int matchStatus = checkForWinner();
+        if (playerTurn && matchStatus != 0)
+        {
+            playerTurn = !playerTurn;
+            computerTurn();
+        }
+        else
+        {
+            playerTurn = !playerTurn;
+        }
     }
-
-    private void checkForWinner()
+    private void computerTurn()
     {
+        while(true)
+        {
+            int choice = new Random().nextInt(9);
+            String ch = String.valueOf(choice);
+            Button computerClicked = buttonList.get(ch);
+            if(computerClicked.isClickable())
+            {
+                computerClicked.performClick();
+                break;
+            }
+        }
 
+    }
+    private int checkForWinner()
+    {
         boolean there_is_a_winner = false;
 
         // horizontal:
@@ -146,7 +188,7 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
 
         if (there_is_a_winner)
         {
-            if (!playerTurn)
+            if (playerTurn)
             {
                 message("Player wins");
                 tvTurnIndicator.setText("Player wins");
@@ -157,12 +199,16 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
                 tvTurnIndicator.setText("Computer wins");
             }
             enableOrDisable(false);
+            return 0;
         }
         else if (turnCount == 9)
         {
             message("Draw!");
             tvTurnIndicator.setText("Draw");
+            enableOrDisable(true);
+            return 0;
         }
+        return 1;
     }
 
     private void message(String text)
@@ -179,7 +225,7 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
             b.setClickable(enable);
             if (enable)
             {
-                b.setBackgroundColor(Color.parseColor("#33b5e5"));
+                b.setBackgroundColor(R.drawable.button_unselected_background);
             }
             else
             {

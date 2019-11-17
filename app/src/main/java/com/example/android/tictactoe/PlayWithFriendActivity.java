@@ -24,24 +24,7 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_with_friend);
-        a1 = (Button) findViewById(R.id.A1);
-        b1 = (Button) findViewById(R.id.B1);
-        c1 = (Button) findViewById(R.id.C1);
-        a2 = (Button) findViewById(R.id.A2);
-        b2 = (Button) findViewById(R.id.B2);
-        c2 = (Button) findViewById(R.id.C2);
-        a3 = (Button) findViewById(R.id.A3);
-        b3 = (Button) findViewById(R.id.B3);
-        c3 = (Button) findViewById(R.id.C3);
-        tvTurnIndicator = findViewById(R.id.tvTurnIndicator);
-        xPlayedTurns = findViewById(R.id.playerPlayedTurns);
-        oPlayedTurns = findViewById(R.id.computerPlayedTurns);
-        bArray = new Button[] { a1, a2, a3, b1, b2, b3, c1, c2, c3 };
-
-        for (Button b : bArray)
-        {
-            b.setOnClickListener(this);
-        }
+        init();
         Button bnew = (Button) findViewById(R.id.button1);
         bnew.setOnClickListener(new OnClickListener()
         {
@@ -56,6 +39,28 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
             }
         });
     }
+    private void init()
+    {
+        a1 = (Button) findViewById(R.id.A1);
+        b1 = (Button) findViewById(R.id.B1);
+        c1 = (Button) findViewById(R.id.C1);
+        a2 = (Button) findViewById(R.id.A2);
+        b2 = (Button) findViewById(R.id.B2);
+        c2 = (Button) findViewById(R.id.C2);
+        a3 = (Button) findViewById(R.id.A3);
+        b3 = (Button) findViewById(R.id.B3);
+        c3 = (Button) findViewById(R.id.C3);
+        tvTurnIndicator = findViewById(R.id.tvTurnIndicator);
+        xPlayedTurns = findViewById(R.id.playerPlayedTurns);
+        oPlayedTurns = findViewById(R.id.computerPlayedTurns);
+        tvTurnIndicator.setText("X's Turn");
+        bArray = new Button[] { a1, a2, a3, b1, b2, b3, c1, c2, c3 };
+
+        for (Button b : bArray)
+        {
+            b.setOnClickListener(this);
+        }
+    }
 
     @Override
     public void onClick(View v)
@@ -68,21 +73,21 @@ public class PlayWithFriendActivity extends Activity implements OnClickListener
         Button b = (Button) v;
         if (turn)
         {
-            tvTurnIndicator.setText("X's Turn");
             // X's playerTurn
             xCount++;
             b.setText("X");
             String xTurn= "X Played : " + String.valueOf(xCount);
             xPlayedTurns.setText(xTurn);
+            tvTurnIndicator.setText("O's Turn");
         }
         else
         {
-            tvTurnIndicator.setText("O's Turn");
             // O's playerTurn
             oCount++;
             b.setText("O");
             String oTurn= "O Played : " + String.valueOf(oCount);
             oPlayedTurns.setText(oTurn);
+            tvTurnIndicator.setText("X's Turn");
         }
         turnCount++;
         b.setClickable(false);
