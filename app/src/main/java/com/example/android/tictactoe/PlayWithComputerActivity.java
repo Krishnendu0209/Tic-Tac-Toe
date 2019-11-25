@@ -191,7 +191,7 @@ public class PlayWithComputerActivity extends Activity implements View.OnClickLi
             if (playerTurn)
             {
                 message("Player wins");
-                tvTurnIndicator.setText("Player wins");
+                tvTurnIndicator.setText("Player wins");// Niranjan Commits
             }
             else
             {
